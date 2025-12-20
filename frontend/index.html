@@ -2,20 +2,188 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Organiser - Upload</title>
+    <title>Study Organiser</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Study Organiser</h1>
-        <div class="upload-section">
-            <input type="file" id="file" accept=".pptx,.pdf">
-            <button onclick="upload()">Upload</button>
+
+<!-- TOP NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Study Organiser</div>
+    <ul class="nav-links">
+        <li>Dashboard</li>
+        <li>Documents</li>
+        <li>Courses</li>
+        <li>Planner</li>
+    </ul>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <div class="sidebar-top">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
         </div>
-        <pre id="out"></pre>
+
+        <nav class="sidebar-nav">
+            <div class="nav-item active" onclick="showView('home')">
+                <span class="icon">🏠</span>
+                <span class="label">Home</span>
+            </div>
+
+            <div class="nav-item" onclick="showView('documents')">
+                <span class="icon">📄</span>
+                <span class="label">Documents</span>
+            </div>
+
+            <div class="nav-item" onclick="showView('courses')">
+                <span class="icon">📘</span>
+                <span class="label">Courses</span>
+            </div>
+
+            <div class="nav-item" onclick="showView('planner')">
+                <span class="icon">📅</span>
+                <span class="label">Planner</span>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+
+        <!-- HOME VIEW -->
+        <section id="home" class="view active-view">
+
+    <!-- WELCOME -->
+    <section class="card welcome-card">
+        <h2>Welcome back 👋</h2>
+        <p>Here’s your academic overview</p>
+    </section>
+
+    <!-- NEXT ACTIONS -->
+    <section class="card next-card">
+        <h3>What should I do next?</h3>
+        <ul>
+            <li>Upload today’s class notes</li>
+            <li>Add syllabus for remaining courses</li>
+        </ul>
+    </section>
+
+    <!-- SNAPSHOT -->
+    <section class="card snapshot-card">
+        <h3>Academic Snapshot</h3>
+        <div class="snapshot-grid">
+            <div><strong id="course-count">0</strong><span>Courses</span></div>
+            <div><strong id="doc-count">0</strong><span>Documents</span></div>
+            <div><strong>–</strong><span>Syllabus</span></div>
+            <div><strong>–</strong><span>Analysis</span></div>
+        </div>
+    </section>
+
+    <!-- RECENT ACTIVITY -->
+    <section class="card activity-card">
+        <h3>Recent Activity</h3>
+        <div id="activity-log">
+            <p>No activity yet.</p>
+        </div>
+    </section>
+
+</section>
+
+
+        <!-- DOCUMENTS VIEW -->
+        <section id="documents" class="view">
+
+    <section class="card">
+        <h2>Documents</h2>
+
+        <select id="doc-course-filter" onchange="filterDocuments()">
+            <option value="all">All courses</option>
+        </select>
+    </section>
+
+    <section class="card">
+        <div id="documents-list"></div>
+    </section>
+
+</section>
+
+
+
+        <!-- COURSES VIEW -->
+        <section id="courses" class="view">
+
+    <section class="card">
+        <h2>Courses</h2>
+
+        <div class="course-form">
+            <input type="text" id="course-name" placeholder="Course name">
+            <button onclick="addCourse()">Add Course</button>
+        </div>
+    </section>
+
+    <section class="card">
+        <h3>Your Courses</h3>
+        <div id="courses-list"></div>
+    </section>
+
+</section>
+
+
+
+        <!-- PLANNER VIEW -->
+        <section id="planner" class="view">
+            <section class="card">
+                <h2>Planner</h2>
+                <p>Study plans and schedules will appear here.</p>
+            </section>
+        </section>
+
+        <!-- UPLOAD (GLOBAL) -->
+        <section class="card upload-card">
+    <h3>Upload Study Material</h3>
+
+    <input type="file" id="file" accept=".pdf">
+
+    <select id="course-select">
+        <option value="">Select course</option>
+    </select>
+
+    <button onclick="upload()">Upload</button>
+</section>
+
+
+        <!-- OUTPUT (GLOBAL) -->
+        <section class="card output-card">
+            <h3>Extracted Content</h3>
+            <div id="out"></div>
+        </section>
+
+    </main>
+
+</div>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="app.js"></script>
+<!-- SYLLABUS MODAL -->
+<div id="syllabus-modal" class="modal hidden">
+    <div class="modal-content">
+        <h3 id="modal-title">Syllabus</h3>
+
+        <textarea
+            id="syllabus-text"
+            placeholder="Paste syllabus here..."
+        ></textarea>
+
+        <div class="modal-actions">
+            <button onclick="saveSyllabus()">Save</button>
+            <button class="secondary" onclick="closeSyllabusModal()">Cancel</button>
+        </div>
     </div>
-    <script src="app.js"></script>
+</div>
+
 </body>
 </html>
-
